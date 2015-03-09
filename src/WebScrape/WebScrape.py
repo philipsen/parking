@@ -13,18 +13,23 @@ class WebScrape:
     classdocs
     '''
 
-    def __init__(self):
+    def __init__(self, browser = "phantomjs", debug = False):
         '''
         Constructor
         '''
+        self.browser = browser
+        self.debug = debug
         
     def prepBrowser(self):
-        print ("prepBrowser\n\tstart server")
-        browser = webdriver.Firefox() # Get local session of firefox
-        #browser = webdriver.PhantomJS("/usr/bin/phantomjs")
-        print ("\tset window")
+        #print ("prepBrowser\n\tstart server")
+        if self.browser == 'phantomjs':
+            browser = webdriver.PhantomJS("/usr/local/bin/phantomjs")
+        else:
+            browser = webdriver.Firefox() # Get local session of firefox
+        
+        #print ("\tset window")
         browser.set_window_size(1280, 2000)
-        print ("\tdone")
+        #print ("\tdone")
         return browser
 
     def openParkerenDelft(self):
@@ -44,12 +49,12 @@ class WebScrape:
     def showHistory(self, browser):
         time.sleep(5)
         browser.save_screenshot('screen_afterLogin.png')
-        print "get remaining hours"
+        if self.debug: print "get remaining hours"
         elem = browser.find_element_by_xpath("//span[@class='pull-right ng-binding']")
         remaing_hours = elem.text
-        print(remaing_hours)
+        if self.debug: print(remaing_hours)
         
-        print "click the menu"
+        if self.debug: print "click the menu"
         elem = browser.find_element_by_xpath("//div[@ng-click='vm.toggleMenu()']")
         elem.click()
         time.sleep(1)
@@ -93,15 +98,15 @@ class WebScrape:
         return item
 
     def openRdw(self):
-        print ("openRdw")
+        if self.debug: print ("openRdw")
         browser = self.prepBrowser()
-        print ("\tgoto link")
+        if self.debug: print ("\tgoto link")
         browser.get("https://www.rdw.nl/particulier/Paginas/default.aspx") # Load page
-        print ("\tsleep")
+        if self.debug: print ("\tsleep")
         time.sleep(1)
-        print ("\tget shot")
+        if self.debug: print ("\tget shot")
         browser.save_screenshot('screen_openPage.png') 
-        print("done")
+        if self.debug: print("done")
         return browser    
     
 
@@ -139,13 +144,12 @@ class WebScrape:
 
         return info
     
-    def getRdwInfo(self, kenteken, debug = False):        
-        self._debug = debug
-        if debug: print("getRdwInfo\n\topen browser")
+    def getRdwInfo(self, kenteken,):        
+        if self.debug: print("getRdwInfo\n\topen browser")
         browser = self.openRdw()
-        if debug: print("enter kenteken")
+        if self.debug: print("enter kenteken")
         self.enterKenteken(browser, kenteken)
-        if debug: print("get info")
+        if self.debug: print("get info")
         info = self.getInfo(browser, kenteken)
         browser.close()
         return info
