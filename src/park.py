@@ -21,7 +21,7 @@ if __name__ == '__main__':
     reservations = database.getDb().reservations
     print("db has %d entries" % reservations.count())
     
-    scrape = WebScrape.WebScrape()
+    scrape = WebScrape.WebScrape("firefox")
     
     for n in nummers:
         print "n = ", n
