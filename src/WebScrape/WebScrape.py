@@ -19,9 +19,12 @@ class WebScrape:
         '''
         
     def prepBrowser(self):
-        #browser = webdriver.Firefox() # Get local session of firefox
-        browser = webdriver.PhantomJS("/usr/local/bin/phantomjs")
+        print ("prepBrowser\n\tstart server")
+        browser = webdriver.Firefox() # Get local session of firefox
+        #browser = webdriver.PhantomJS("/usr/bin/phantomjs")
+        print ("\tset window")
         browser.set_window_size(1280, 2000)
+        print ("\tdone")
         return browser
 
     def openParkerenDelft(self):
@@ -90,10 +93,15 @@ class WebScrape:
         return item
 
     def openRdw(self):
+        print ("openRdw")
         browser = self.prepBrowser()
+        print ("\tgoto link")
         browser.get("https://www.rdw.nl/particulier/Paginas/default.aspx") # Load page
+        print ("\tsleep")
         time.sleep(1)
+        print ("\tget shot")
         browser.save_screenshot('screen_openPage.png') 
+        print("done")
         return browser    
     
 
@@ -131,9 +139,13 @@ class WebScrape:
 
         return info
     
-    def getRdwInfo(self, kenteken):        
+    def getRdwInfo(self, kenteken, debug = False):        
+        self._debug = debug
+        if debug: print("getRdwInfo\n\topen browser")
         browser = self.openRdw()
+        if debug: print("enter kenteken")
         self.enterKenteken(browser, kenteken)
+        if debug: print("get info")
         info = self.getInfo(browser, kenteken)
         browser.close()
         return info

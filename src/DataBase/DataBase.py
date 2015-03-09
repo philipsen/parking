@@ -39,11 +39,13 @@ class DataBase:
         collection.update({'key': k}, entry, upsert = True)
     
     def getKentekenInfo(self, kentekens, kenteken):
-        #print("get info %s" % kenteken)
+        print("get info %s" % kenteken)
         f = kentekens.find({'kenteken': kenteken})
         if f.count() == 0:
+            print ("\t not in db")
             web_scrape = WebScrape.WebScrape()
-            rdw_info = web_scrape.getRdwInfo(kenteken)
+            print ("\tstart scrape")
+            rdw_info = web_scrape.getRdwInfo(kenteken, True)
             kentekens.insert(rdw_info)
             f = kentekens.find({'kenteken': kenteken})
             assert(f.count() == 1)

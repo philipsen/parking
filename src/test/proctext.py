@@ -3,14 +3,15 @@ Created on Mar 6, 2015
 
 @author: wim
 '''
+
 import unittest
 from DataBase import DataBase
 from WebScrape import WebScrape
 
 class Test(unittest.TestCase):
-    
 
     def testProcText(self):
+        print ("testProcText")
         res = ['04-03-2015 16:54\n04-03-2015 17:24\n63HFLD\n30 min',
                '04-03-2015 13:31\n04-03-2015 14:31\n74HST7\n1 uur', 
                '04-03-2015 10:00\n04-03-2015 10:29\n6VXR12\n30 min', 
