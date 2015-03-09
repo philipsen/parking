@@ -17,3 +17,6 @@ src/test/screen_openPage.png
 .pydevproject
 src/codes.ini
 src/config.py
+src/screen_enterKenteken.png
+src/screen_enterKenteken2.png
+src/screen_openPage.png
