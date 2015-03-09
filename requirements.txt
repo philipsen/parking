@@ -1,0 +1,2 @@
+pymongo==2.8
+selenium==2.45.0
