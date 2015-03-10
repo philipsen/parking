@@ -3,7 +3,11 @@ Created on Mar 7, 2015
 
 @author: wim
 '''
-from config import config
+try:
+    from config import config
+except:
+    pass
+
 import unittest
 from WebScrape import WebScrape
 from DataBase import DataBase
