@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
                 
         web_scrape = WebScrape.WebScrape()
         db2 = DataBase.DataBase()
-        db = db2.getTestDb()
+        db = db2.get_test_db()
         reservations = db.reservations
         count = reservations.count()
 
@@ -45,7 +45,6 @@ class Test(unittest.TestCase):
         
         count = reservations.count()
         print("db has %d entries" % count)
-        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testProcText']
