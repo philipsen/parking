@@ -88,13 +88,13 @@ class WebScrape:
     def procItem(self, r, nr):
         #key = ';'.join(r.split('\n'))
         s = r.split('\n')
-        print("r = %s" % r)
-        print(s)
-        print("l = %d" % len(s))
+        #print("r = %s" % r)
+        #print(s)
+        #print("l = %d" % len(s))
         key = s[0] + ';' + s[2]
-        print("key = %s" % key)
+        #print("key = %s" % key)
         item = {'key':key, 'nr': nr, 'start': s[0], 'end': s[1], 'kenteken': s[2]}
-        print item['key']
+        #print item['key']
         return item
 
     def openRdw(self):
