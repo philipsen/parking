@@ -26,6 +26,7 @@ class Test(unittest.TestCase):
                   'InrichtingCodeOmschrijving': u'gesloten opbouw', 'kenteken': "6VXR12"}
         self.assertDictEqual(expect, rdw_info, "Info 2 klopt niet")
 
+    @nottest
     def testKentekenDb(self):
         expect1 = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 
                   'merk': u'TOYOTA', 'kleur': u'Blauw', 'kenteken': '58JRNK'}
@@ -43,6 +44,7 @@ class Test(unittest.TestCase):
         
         self.assertEqual(kentekens.count(), 2, "db needs 2 entries")
 
+    @nottest
     def testAddKenteken(self):
         expect1 = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 
                   'merk': u'TOYOTA', 'kleur': u'Blauw', 'kenteken': '58JRNK'}
