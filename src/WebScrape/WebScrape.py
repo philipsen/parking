@@ -13,7 +13,7 @@ class WebScrape:
     classdocs
     '''
 
-    def __init__(self, browser = "phantomjs", debug = False):
+    def __init__(self, browser = "firefox", debug = False):
         '''
         Constructor
         '''
