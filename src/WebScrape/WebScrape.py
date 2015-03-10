@@ -5,39 +5,47 @@ Created on Mar 6, 2015
 '''
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+#from selenium.webdriver.common.keys import Keys
 import time
 
-class WebScrape:
+class WebScrape(object):
     '''
     classdocs
     '''
 
-    def __init__(self, browser = "firefox", debug = False):
+    def __init__(self, browser="firefox", debug=False):
         '''
         Constructor
         '''
         self.browser = browser
         self.debug = debug
-        
-    def prepBrowser(self):
-        #print ("prepBrowser\n\tstart server " + self.browser)
+
+    def prep_browser(self):
+        '''
+        set up browser
+        '''
+        #print ("prep_browser\n\tstart server " + self.browser)
         if self.browser == 'phantomjs':
             browser = webdriver.PhantomJS("/usr/local/bin/phantomjs")
         else:
             browser = webdriver.Firefox() # Get local session of firefox
-        
+
         #print ("\tset window")
         browser.set_window_size(1280, 2000)
         #print ("\tdone")
         return browser
 
-    def openParkerenDelft(self):
-        browser = self.prepBrowser()
+    def open_parkeren_delft(self):
+        ''' goto site
+        '''
+        browser = self.prep_browser()
         browser.get("https://parkeren.delft.nl/BezoekersApp") # Load page
         return browser
 
     def login(self, browser, nr, pin):
+        '''
+        login
+        '''
         elem = browser.find_element_by_xpath("//input[@placeholder='Nummer']")
         elem.send_keys(nr)
         elem = browser.find_element_by_xpath("//input[@placeholder='Pincode']")
@@ -45,16 +53,22 @@ class WebScrape:
         elem = browser.find_element_by_xpath("//div[@ng-click='vm.login()']")
         elem.click()
         return elem
-    
-    def showHistory(self, browser):
+
+    def show_history(self, browser):
+        '''
+        open history on site
+        '''
         time.sleep(5)
         browser.save_screenshot('screen_afterLogin.png')
-        if self.debug: print "get remaining hours"
+        if self.debug:
+            print "get remaining hours"
         elem = browser.find_element_by_xpath("//span[@class='pull-right ng-binding']")
         remaing_hours = elem.text
-        if self.debug: print(remaing_hours)
-        
-        if self.debug: print "click the menu"
+        if self.debug:
+            print remaing_hours
+
+        if self.debug:
+            print "click the menu"
         elem = browser.find_element_by_xpath("//div[@ng-click='vm.toggleMenu()']")
         elem.click()
         time.sleep(1)
@@ -68,22 +82,28 @@ class WebScrape:
         elem.click()
         time.sleep(2)
         return remaing_hours
-        
-    def gethistory(self, browser):
+
+    def get_history_elements(self, browser):
+        '''
+        get all lines in the table
+        '''
         elems = browser.find_elements_by_xpath("//div[@ng-repeat='res in vm.reservations']")
         res = []
         for e in elems:
             res.append(e.text)
         return res
 
-    def getHistory(self, nr, pin):
-        browser = self.openParkerenDelft()
+    def get_history(self, nr, pin):
+        '''
+        get history from site and process
+        '''
+        browser = self.open_parkeren_delft()
         time.sleep(2)
         self.login(browser, nr, pin)
-        remaing_hours = self.showHistory(browser)
-        res = self.gethistory(browser)
+        remaing_hours = self.show_history(browser)
+        res = self.get_history_elements(browser)
         browser.close()
-        return (remaing_hours, res)   
+        return (remaing_hours, res)
 
     def procItem(self, r, nr):
         #key = ';'.join(r.split('\n'))
@@ -98,17 +118,21 @@ class WebScrape:
         return item
 
     def openRdw(self):
-        if self.debug: print ("openRdw")
-        browser = self.prepBrowser()
-        if self.debug: print ("\tgoto link")
+        if self.debug:
+            print "openRdw"
+        browser = self.prep_browser()
+        if self.debug:
+            print "\tgoto link"
         browser.get("https://www.rdw.nl/particulier/Paginas/default.aspx") # Load page
-        if self.debug: print ("\tsleep")
+        if self.debug:
+            print "\tsleep"
         time.sleep(1)
-        if self.debug: print ("\tget shot")
-        browser.save_screenshot('screen_openPage.png') 
-        if self.debug: print("done")
-        return browser    
-    
+        if self.debug:
+            print "\tget shot"
+        browser.save_screenshot('screen_openPage.png')
+        if self.debug:
+            print "done"
+        return browser
 
     def enterKenteken(self, browser, kenteken):
         elem = browser.find_element_by_id("ctl00_PlaceHolderMain_ctl05_PlateTextBox")
@@ -119,12 +143,12 @@ class WebScrape:
         #time.sleep(5)
         #elem[0].send_keys(kenteken + Keys.RETURN)
         #time.sleep(5)
-        
+
         elem2 = browser.find_element_by_xpath("//input[@value='Gegevens opvragen']")
         elem2.click()
         time.sleep(1)
         browser.save_screenshot('screen_enterKenteken2.png')
-    
+
 
     def getInfo(self, browser, kenteken):
         info = {}
@@ -136,25 +160,19 @@ class WebScrape:
                 info['kleur'] = browser.find_element_by_id("Kleur").text
             except:
                 info['kleur'] = 'onbekend'
-            
-            info['InrichtingCodeOmschrijving'] = browser.find_element_by_id("InrichtingCodeOmschrijving").text
+            iname = "InrichtingCodeOmschrijving"
+            info['InrichtingCodeOmschrijving'] = browser.find_element_by_id(iname).text
         except:
-            print("problem retrieving info from site")
-            browser.save_screenshot('screen.png') 
+            print "problem retrieving info from site"
+            browser.save_screenshot('screen.png')
 
         return info
-    
-    def getRdwInfo(self, kenteken,):        
-        if self.debug: print("getRdwInfo\n\topen browser")
+
+    def getRdwInfo(self, kenteken):
+        if self.debug:
+            print "getRdwInfo\n\topen browser"
         browser = self.openRdw()
-        if self.debug: print("enter kenteken")
         self.enterKenteken(browser, kenteken)
-        if self.debug: print("get info")
         info = self.getInfo(browser, kenteken)
         browser.close()
         return info
-    
-    
-
-
-    
