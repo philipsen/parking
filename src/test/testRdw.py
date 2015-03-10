@@ -7,8 +7,11 @@ import unittest
 from WebScrape import WebScrape
 from DataBase import DataBase
 
+from nose.tools import nottest
+
 class Test(unittest.TestCase):
 
+    @nottest
     def testGetKenten(self):
         web_scrape = WebScrape.WebScrape()
         rdw_info = web_scrape.getRdwInfo("58JRNK")
