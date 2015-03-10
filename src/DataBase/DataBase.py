@@ -16,27 +16,26 @@ class DataBase:
         '''
         Constructor
         '''
-    
+
     def getDb(self):
         client = MongoClient('localhost:27017')
         db = client.parkingDb
         #db.reservations.remove()
-        db.reservations.create_index('key' , unique = True)
-     
+        db.reservations.create_index('key', unique=True)
         return db
-    
+
     def getTestDb(self):
         client = MongoClient('localhost:27017')
         db = client.parkingDbTest
         db.reservations.remove()
-        db.reservations.create_index('key' , unique = True)
+        db.reservations.create_index('key', unique=True)
         db.kentekens.drop()
-        db.kentekens.create_index('kenteken' , unique = True)
+        db.kentekens.create_index('kenteken', unique=True)
         return db
     
     def insert(self, collection, entry):
         k = entry['key']
-        collection.update({'key': k}, entry, upsert = True)
+        collection.update({'key': k}, entry, upsert=True)
     
     def getKentekenInfo(self, kentekens, kenteken):
         #print("get info %s" % kenteken)
