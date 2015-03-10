@@ -21,7 +21,7 @@ class WebScrape:
         self.debug = debug
         
     def prepBrowser(self):
-        #print ("prepBrowser\n\tstart server")
+        #print ("prepBrowser\n\tstart server " + self.browser)
         if self.browser == 'phantomjs':
             browser = webdriver.PhantomJS("/usr/local/bin/phantomjs")
         else:
