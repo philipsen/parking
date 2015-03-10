@@ -11,7 +11,6 @@ from nose.tools import nottest
 
 class Test(unittest.TestCase):
 
-    @nottest
     def testGetKenten(self):
         web_scrape = WebScrape.WebScrape("firefox")
         rdw_info = web_scrape.getRdwInfo("58JRNK")
