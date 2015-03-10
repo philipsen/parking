@@ -46,7 +46,7 @@ class Test(unittest.TestCase):
         count = reservations.count()
         print("db has %d entries" % count)
 
-        self.assertEqual(count, 9, "db needs 8 entries 2nd time")
+        self.assertEqual(count, 8, "db needs 8 entries 2nd time")
 
         #for r in reservations.find():
         #    print "r = ", r
