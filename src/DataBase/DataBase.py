@@ -1,52 +1,70 @@
 '''
 Created on Mar 6, 2015
-
 @author: wim
 '''
 from pymongo.mongo_client import MongoClient
 from WebScrape import WebScrape
 
-class DataBase:
+class DataBase(object):
     '''
     classdocs
     '''
-
 
     def __init__(self):
         '''
         Constructor
         '''
+        self.debug = False
 
-    def getDb(self):
+    def get_db(self):
+        '''
+        return mongo collection
+        '''
+        if self.debug:
+            print "get_db"
         client = MongoClient('localhost:27017')
-        db = client.parkingDb
-        #db.reservations.remove()
-        db.reservations.create_index('key', unique=True)
-        return db
+        database = client.parkingDb
+        #database.reservations.remove()
+        database.reservations.create_index('key', unique=True)
+        return database
 
-    def getTestDb(self):
+    def get_test_db(self):
+        '''
+        return the test collection
+        '''
+        if self.debug:
+            print "get_test_db"
         client = MongoClient('localhost:27017')
-        db = client.parkingDbTest
-        db.reservations.remove()
-        db.reservations.create_index('key', unique=True)
-        db.kentekens.drop()
-        db.kentekens.create_index('kenteken', unique=True)
-        return db
-    
+        database = client.parkingDbTest
+        database.reservations.remove()
+        database.reservations.create_index('key', unique=True)
+        database.kentekens.drop()
+        database.kentekens.create_index('kenteken', unique=True)
+        return database
+
     def insert(self, collection, entry):
+        '''
+        insert a entry into the given collection
+        '''
+        if self.debug:
+            print "insert"
         k = entry['key']
         collection.update({'key': k}, entry, upsert=True)
-    
-    def getKentekenInfo(self, kentekens, kenteken):
-        #print("get info %s" % kenteken)
-        f = kentekens.find({'kenteken': kenteken})
-        if f.count() == 0:
+
+    def get_kenteken_info(self, kentekens, kenteken):
+        '''
+        return info
+        '''
+        if self.debug:
+            print "get info %s" % kenteken
+        qres = kentekens.find({'kenteken': kenteken})
+        if qres.count() == 0:
             #print ("\t not in db")
             web_scrape = WebScrape.WebScrape()
             #print ("\tstart scrape")
             rdw_info = web_scrape.getRdwInfo(kenteken)
             kentekens.insert(rdw_info)
-            f = kentekens.find({'kenteken': kenteken})
-            assert(f.count() == 1)
-        return f[0]
-    
+            qres = kentekens.find({'kenteken': kenteken})
+            assert qres.count() == 1
+        return qres[0]
+
