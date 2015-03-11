@@ -105,7 +105,7 @@ class WebScrape(object):
             return None
 
         key = split[0] + ';' + split[2]
-        item = {'key':key, 'krtnum': krtnum, 'start': split[0],
+        item = {'key':key, 'nr': krtnum, 'start': split[0],
                 'end': split[1], 'kenteken': split[2]}
         return item
 
