@@ -31,6 +31,6 @@ if __name__ == '__main__':
             proc_item = scrape.proc_item(r, n['name'])
             if proc_item is not None:
                 database.insert(reservations, proc_item)
-        print("db has {1} entries".format(reservations.count()))
-        print ("remaining on this card = {1}".format(rem))
+        print("db has {0} entries".format(reservations.count()))
+        print("remaining on this card = {0}".format(rem))
         
