@@ -10,8 +10,7 @@ except IOError:
 
 import unittest
 from WebScrape import WebScrape
-from database import DataBase
-#from database import database
+from database import database
 
 #from nose.tools import nottest
 
@@ -44,7 +43,7 @@ class Test(unittest.TestCase):
         expect2 = {'naam': u'TRANSIT/TOURNEO', 'merk': u'FORD', 'kleur': 'onbekend',
                    'InrichtingCodeOmschrijving': u'gesloten opbouw', 'kenteken': "6VXR12"}   
         
-        db2 = DataBase.DataBase()
+        db2 = database.DataBase()
         db = db2.get_test_db()
         kentekens = db.kentekens
         self.assertEqual(kentekens.count(), 0, "db needs to be empty")
@@ -58,7 +57,7 @@ class Test(unittest.TestCase):
         expect1 = {u'InrichtingCodeOmschrijving': u'stationwagen', 
                    u'naam': u'TOYOTA COROLLA VERSO', u'kleur': u'onbekend',
                    u'merk': u'TOYOTA', u'kenteken': u'58JRNK'}
-        db2 = DataBase.DataBase()
+        db2 = database.DataBase()
         db = db2.get_test_db()
         kentekens = db.kentekens
         self.assertEqual(kentekens.count(), 0, "db needs to be empty")

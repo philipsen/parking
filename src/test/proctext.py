@@ -5,15 +5,15 @@ Created on Mar 6, 2015
 '''
 
 import unittest
-from database import DataBase
+from database import database
 from WebScrape import WebScrape
 import logging
 
 class Test(unittest.TestCase):
 
     def test_production_db(self):
-        database = DataBase.DataBase()
-        reservations = database.get_db().reservations
+        db2 = database.DataBase()
+        reservations = db2.get_db().reservations
         logging.info("db has %d entries", reservations.count())
         
     def testProcText(self):
@@ -28,7 +28,7 @@ class Test(unittest.TestCase):
                '02-03-2015 19:41\n02-03-2015 19:43\n58JRNK\n2 min']
                 
         web_scrape = WebScrape.WebScrape()
-        db2 = DataBase.DataBase()
+        db2 = database.DataBase()
         db = db2.get_test_db()
         reservations = db.reservations
         count = reservations.count()
