@@ -17,7 +17,7 @@ if __name__ == '__main__':
     for r in reservations.find().sort('start'):
         print "r = {0}".format(r)
         reservation = Reservation(r)
-        total_minutes += reservation.calcMinutes()
+        total_minutes += reservation.calc_minutes()
         print reservation
     print "Totaal gebruikt %d uur %d minuten" % (int(total_minutes / 60), (total_minutes % 60))
     p = total_minutes / ((408 + 360) * 60) * 100
