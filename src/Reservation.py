@@ -16,13 +16,18 @@ class Reservation(object):
         '''
         self.dict = r
 
+    def calc_duration(self):
+        ''' calcduration '''
+        start = datetime.strptime(self.dict['start'], "%d-%m-%Y %H:%M")
+        end = datetime.strptime(self.dict['end'], "%d-%m-%Y %H:%M")
+        dur = end - start
+        return dur
+
     def calc_minutes(self):
         '''
         calculate the duration of this reservation
         '''
-        start = datetime.strptime(self.dict['start'], "%d-%m-%Y %H:%M")
-        end = datetime.strptime(self.dict['end'], "%d-%m-%Y %H:%M")
-        dur = end - start
+        dur = self.calc_duration()
         return dur.total_seconds() / 60
 
     def __str__(self):
