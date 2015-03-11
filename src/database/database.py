@@ -50,7 +50,8 @@ class DataBase(object):
         k = entry['key']
         collection.update({'key': k}, entry, upsert=True)
 
-    def get_kenteken_info(self, kentekens, kenteken):
+    @staticmethod
+    def get_kenteken_info(kentekens, kenteken):
         '''
         return info
         '''
