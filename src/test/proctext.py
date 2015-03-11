@@ -13,7 +13,8 @@ class Test(unittest.TestCase):
 
     def test_production_db(self):
         db2 = database.DataBase()
-        reservations = db2.get_db().reservations
+        db3 = db2.get_db()
+        reservations = db3.reservations
         logging.info("db has %d entries", reservations.count())
         
     def testProcText(self):
@@ -36,6 +37,7 @@ class Test(unittest.TestCase):
         self.assertEqual(count, 0, "db needs to be empty")
 
         for r in res:
+            print("here")
             proc_item = web_scrape.proc_item(r, 2) 
             db2.insert(reservations, proc_item)
             #reservations.insert(proc_item)
