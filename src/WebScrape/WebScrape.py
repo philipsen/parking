@@ -150,7 +150,7 @@ class WebScrape(object):
             info['naam'] = browser.find_element_by_id("Handelsbenaming").text
             if 'kleur' in info:
                 info['kleur'] = browser.find_element_by_id("Kleur").text
-            else:           
+            else:
                 info['kleur'] = 'onbekend'
             iname = "InrichtingCodeOmschrijving"
             info['InrichtingCodeOmschrijving'] = browser.find_element_by_id(iname).text
