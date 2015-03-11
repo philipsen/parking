@@ -4,7 +4,7 @@ Created on Mar 7, 2015
 @author: wim
 '''
 from datetime import datetime
-from database import DataBase
+from database import database
 
 class Reservation:
     '''
@@ -28,9 +28,9 @@ class Reservation:
     
     
     def __str__(self):
-        database = DataBase.DataBase()
-        kentekens = database.get_db().kentekens
-        kenteken_info = database.get_kenteken_info(kentekens, self.dict['kenteken'])
+        db2 = database.DataBase()
+        kentekens = db2.get_db().kentekens
+        kenteken_info = db2.get_kenteken_info(kentekens, self.dict['kenteken'])
 
         return '%s\t%s\t%d\t%s\t%s, %s' % (self.dict['start'], self.dict['kenteken'], self.calcMinutes(), 
                                       kenteken_info['kleur'], kenteken_info['merk'], kenteken_info['naam'])
