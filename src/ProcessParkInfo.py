@@ -8,9 +8,9 @@ from Reservation import Reservation
 
 if __name__ == '__main__':
 
-    database = database.DataBase()
-    reservations = database.get_db().reservations
-    kentekens = database.get_db().kentekens
+    db2 = database.DataBase()
+    reservations = db2.get_db().reservations
+    kentekens = db2.get_db().kentekens
 
     print "Er zijn %d gebruiken geregistreerd" % reservations.count()
     total_minutes = 0.0
