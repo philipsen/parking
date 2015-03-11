@@ -4,7 +4,7 @@ Created on Mar 7, 2015
 @author: wim
 '''
 from datetime import datetime
-from DataBase import DataBase
+from database import DataBase
 
 class Reservation:
     '''

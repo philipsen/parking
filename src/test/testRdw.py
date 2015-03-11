@@ -10,8 +10,8 @@ except IOError:
 
 import unittest
 from WebScrape import WebScrape
-from DataBase import DataBase
-#from DataBase import DataBase
+from database import DataBase
+#from database import database
 
 #from nose.tools import nottest
 

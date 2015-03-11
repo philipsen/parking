@@ -5,7 +5,7 @@ Created on Mar 6, 2015
 '''
 
 import unittest
-from DataBase import DataBase
+from database import DataBase
 from WebScrape import WebScrape
 import logging
 

@@ -3,7 +3,7 @@ Created on Mar 7, 2015
 
 @author: wim
 '''
-from DataBase import DataBase
+from database import DataBase
 from Reservation import Reservation
 
 if __name__ == '__main__':

@@ -9,7 +9,7 @@ Add data to the database
 '''
 
 from WebScrape import WebScrape
-from DataBase import DataBase
+from database import DataBase
 import config
 from config import nummers
 
