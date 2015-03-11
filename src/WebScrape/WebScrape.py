@@ -39,12 +39,13 @@ class WebScrape(object):
         browser.get("https://parkeren.delft.nl/BezoekersApp") # Load page
         return browser
 
-    def login(self, browser, nr, pin):
+    @staticmethod
+    def login(browser, krtnum, pin):
         '''
         login
         '''
         elem = browser.find_element_by_xpath("//input[@placeholder='Nummer']")
-        elem.send_keys(nr)
+        elem.send_keys(krtnum)
         elem = browser.find_element_by_xpath("//input[@placeholder='Pincode']")
         elem.send_keys(pin)
         elem = browser.find_element_by_xpath("//div[@ng-click='vm.login()']")
@@ -80,35 +81,42 @@ class WebScrape(object):
         time.sleep(2)
         return remaing_hours
 
-    def get_history_elements(self, browser):
+    @staticmethod
+    def get_history_elements(browser):
         '''
         get all lines in the table
         '''
         elems = browser.find_elements_by_xpath("//div[@ng-repeat='res in vm.reservations']")
         res = []
-        for e in elems:
-            res.append(e.text)
+        for elem in elems:
+            res.append(elem.text)
         return res
 
-    def get_history(self, nr, pin):
+    def get_history(self, krtnum, pin):
         '''
         get history from site and process
         '''
         browser = self.open_parkeren_delft()
         time.sleep(2)
-        self.login(browser, nr, pin)
+        self.login(browser, krtnum, pin)
         remaing_hours = self.show_history(browser)
         res = self.get_history_elements(browser)
         browser.close()
         return (remaing_hours, res)
 
-    def proc_item(self, r, nr):
-        s = r.split('\n')
-        key = s[0] + ';' + s[2]
-        item = {'key':key, 'nr': nr, 'start': s[0], 'end': s[1], 'kenteken': s[2]}
+    @staticmethod
+    def proc_item(result, krtnum):
+        ''' process item '''
+        split = result.split('\n')
+        key = split[0] + ';' + split[2]
+        item = {'key':key, 'krtnum': krtnum, 'start': split[0],
+                'end': split[1], 'kenteken': split[2]}
         return item
 
     def open_rdw(self):
+        '''
+        point browser to rdw site
+        '''
         logging.info("open_rdw")
         browser = self.prep_browser()
         logging.info("goto link")
@@ -117,7 +125,11 @@ class WebScrape(object):
         browser.save_screenshot('screen_openPage.png')
         return browser
 
-    def enter_kenteken(self, browser, kenteken):
+    @staticmethod
+    def enter_kenteken(browser, kenteken):
+        '''
+        enter the license code on the site
+        '''
         elem = browser.find_element_by_id("ctl00_PlaceHolderMain_ctl05_PlateTextBox")
         elem.send_keys(kenteken)
         browser.save_screenshot('screen_enterKenteken.png')
@@ -126,7 +138,11 @@ class WebScrape(object):
         time.sleep(1)
         browser.save_screenshot('screen_enterKenteken2.png')
 
-    def get_info(self, browser, kenteken):
+    @staticmethod
+    def get_info(browser, kenteken):
+        '''
+        retrieve info from page
+        '''
         info = {}
         info['kenteken'] = kenteken
         try:
@@ -134,17 +150,18 @@ class WebScrape(object):
             info['naam'] = browser.find_element_by_id("Handelsbenaming").text
             try:
                 info['kleur'] = browser.find_element_by_id("Kleur").text
-            except(KeyError):
+            except KeyError:
                 info['kleur'] = 'onbekend'
             iname = "InrichtingCodeOmschrijving"
             info['InrichtingCodeOmschrijving'] = browser.find_element_by_id(iname).text
-        except(IOError):
+        except IOError:
             logging.error("problem retrieving info from site")
             browser.save_screenshot('screen.png')
 
         return info
 
     def get_rdw_info(self, kenteken):
+        ''' return license info retieve from site '''
         logging.info("get_rdw_info\n\topen browser")
         browser = self.open_rdw()
         self.enter_kenteken(browser, kenteken)

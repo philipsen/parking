@@ -43,7 +43,8 @@ class DataBase(object):
         database.kentekens.create_index('kenteken', unique=True)
         return database
 
-    def insert(self, collection, entry):
+    @staticmethod
+    def insert(collection, entry):
         '''
         insert a entry into the given collection
         '''
