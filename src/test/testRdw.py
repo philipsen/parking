@@ -5,7 +5,7 @@ Created on Mar 7, 2015
 '''
 try:
     from config import config
-except(IOError):
+except IOError:
     pass
 
 import unittest
@@ -26,9 +26,9 @@ class Test(unittest.TestCase):
 
         web_scrape = WebScrape.WebScrape(browser)
         rdw_info = web_scrape.get_rdw_info("58JRNK")
-        expect = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 
-                  'merk': u'TOYOTA', 'kleur': u'Blauw', 'kenteken': '58JRNK'}
+        expect = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 'merk': u'TOYOTA', 'kleur': 'onbekend', 'kenteken': '58JRNK'} 
         #print(rdw_info)
+        #print expect
         self.assertDictEqual(expect, rdw_info, "Info 1 klopt niet")
 
         rdw_info = web_scrape.get_rdw_info("6VXR12")
@@ -55,17 +55,21 @@ class Test(unittest.TestCase):
         self.assertEqual(kentekens.count(), 2, "db needs 2 entries")
 
     def testAddKenteken(self):
-        expect1 = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen',
-                   'merk': u'TOYOTA', 'kleur': u'Blauw', 'kenteken': '58JRNK'}
+        expect1 = {u'InrichtingCodeOmschrijving': u'stationwagen', 
+                   u'naam': u'TOYOTA COROLLA VERSO', u'kleur': u'onbekend',
+                   u'merk': u'TOYOTA', u'kenteken': u'58JRNK'}
         db2 = DataBase.DataBase()
         db = db2.get_test_db()
         kentekens = db.kentekens
         self.assertEqual(kentekens.count(), 0, "db needs to be empty")
         i1 = db2.get_kenteken_info(kentekens, '58JRNK')
         expect1['_id'] = i1['_id']
-        self.assertEqual(kentekens.count(), 1, "db needs have 1")
-        self.assertDictEqual(expect1, i1, "Info 1 klopt niet")    
+        #print expect1
+        #print i1
      
+        self.assertEqual(kentekens.count(), 1, "db needs have 1")
+        self.assertDictEqual(expect1, i1, "Info 1 klopt niet here")    
+    
         i2 = db2.get_kenteken_info(kentekens, '58JRNK')
         expect1['_id'] = i2['_id']
         self.assertEqual(kentekens.count(), 1, "db needs to have 1")

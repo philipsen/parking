@@ -148,9 +148,9 @@ class WebScrape(object):
         try:
             info['merk'] = browser.find_element_by_id("Merk").text
             info['naam'] = browser.find_element_by_id("Handelsbenaming").text
-            try:
+            if 'kleur' in info:
                 info['kleur'] = browser.find_element_by_id("Kleur").text
-            except KeyError:
+            else:           
                 info['kleur'] = 'onbekend'
             iname = "InrichtingCodeOmschrijving"
             info['InrichtingCodeOmschrijving'] = browser.find_element_by_id(iname).text
