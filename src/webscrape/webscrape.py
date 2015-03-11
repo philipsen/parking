@@ -52,7 +52,8 @@ class WebScrape(object):
         elem.click()
         return elem
 
-    def show_history(self, browser):
+    @staticmethod
+    def show_history(browser):
         '''
         open history on site
         '''

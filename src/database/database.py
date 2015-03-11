@@ -21,8 +21,7 @@ class DataBase(object):
         '''
         return mongo collection
         '''
-        if self.debug:
-            print "get_db"
+        #print "get_db"
         client = MongoClient('localhost:27017')
         database = client.parkingDb
         #database.reservations.remove()
@@ -33,8 +32,7 @@ class DataBase(object):
         '''
         return the test collection
         '''
-        if self.debug:
-            print "get_test_db"
+        #print "get_test_db"
         client = MongoClient('localhost:27017')
         database = client.parkingDbTest
         database.reservations.remove()
@@ -56,8 +54,7 @@ class DataBase(object):
         '''
         return info
         '''
-        if self.debug:
-            print "get info %s" % kenteken
+        #print "get info %s" % kenteken
         qres = kentekens.find({'kenteken': kenteken})
         if qres.count() == 0:
             #print ("\t not in db")
