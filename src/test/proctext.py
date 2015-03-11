@@ -6,7 +6,7 @@ Created on Mar 6, 2015
 
 import unittest
 from database import database
-from WebScrape import WebScrape
+from webscrape import webscrape
 import logging
 
 class Test(unittest.TestCase):
@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
                '02-03-2015 19:43\n02-03-2015 20:43\n58JRNK\n1 uur', 
                '02-03-2015 19:41\n02-03-2015 19:43\n58JRNK\n2 min']
                 
-        web_scrape = WebScrape.WebScrape()
+        web_scrape = webscrape.WebScrape()
         db2 = database.DataBase()
         db = db2.get_test_db()
         reservations = db.reservations

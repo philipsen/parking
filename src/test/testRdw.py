@@ -9,7 +9,7 @@ except IOError:
     pass
 
 import unittest
-from WebScrape import WebScrape
+from webscrape import webscrape
 from database import database
 
 #from nose.tools import nottest
@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
         except(KeyError):
             browser = "firefox"
 
-        web_scrape = WebScrape.WebScrape(browser)
+        web_scrape = webscrape.WebScrape(browser)
         rdw_info = web_scrape.get_rdw_info("58JRNK")
         expect = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 'merk': u'TOYOTA', 'kleur': 'onbekend', 'kenteken': '58JRNK'} 
         #print(rdw_info)

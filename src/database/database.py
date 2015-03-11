@@ -3,7 +3,7 @@ Created on Mar 6, 2015
 @author: wim
 '''
 from pymongo.mongo_client import MongoClient
-from WebScrape import WebScrape
+from webscrape import webscrape
 import logging
 
 class DataBase(object):
@@ -61,7 +61,7 @@ class DataBase(object):
         qres = kentekens.find({'kenteken': kenteken})
         if qres.count() == 0:
             #print ("\t not in db")
-            web_scrape = WebScrape.WebScrape()
+            web_scrape = webscrape.WebScrape()
             #print ("\tstart scrape")
             rdw_info = web_scrape.get_rdw_info(kenteken)
             kentekens.insert(rdw_info)
