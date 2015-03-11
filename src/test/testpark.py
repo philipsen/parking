@@ -8,7 +8,7 @@ import unittest
 from config import nummers
 from webscrape import webscrape
 
-from nose.tools import nottest
+#from nose.tools import nottest
 
 class Test(unittest.TestCase):
 
@@ -31,7 +31,7 @@ class Test(unittest.TestCase):
         proc_item = scrape.proc_item(r, 'naam')
         self.assertFalse(proc_item is not None, "item is invalid")
 
-    @nottest
+    #@nottest
     def test_gethist(self):
         scrape = webscrape.WebScrape("firefox")
         nummer = nummers[0]    
