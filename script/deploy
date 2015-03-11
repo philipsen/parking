@@ -3,5 +3,5 @@ ssh ubuntu@localhost <<EOF
     cd ~/parking
     git pull
     cd ~
-    sh -x ~/bin/updateParking.sh
+    /bin/bssh -x ~/bin/updateParking.sh
 EOF
