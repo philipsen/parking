@@ -1,0 +1,7 @@
+#!/bin/bash
+ssh ubuntu@localhost <<EOF
+    cd ~/parking
+    git pull
+    cd ~
+    sh -x ~/bin/updateParking.sh
+EOF
