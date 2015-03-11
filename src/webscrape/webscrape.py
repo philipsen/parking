@@ -100,6 +100,10 @@ class WebScrape(object):
     def proc_item(result, krtnum):
         ''' process item '''
         split = result.split('\n')
+        #print len(split)
+        if len(split) < 4:
+            return None
+
         key = split[0] + ';' + split[2]
         item = {'key':key, 'krtnum': krtnum, 'start': split[0],
                 'end': split[1], 'kenteken': split[2]}
