@@ -28,7 +28,7 @@ if __name__ == '__main__':
         (rem, res) = scrape.get_history(n['nr'], n['pin'])
         print "res2=", res
         for r in res:
-            proc_item = scrape.procItem(r, n['name'])
+            proc_item = scrape.proc_item(r, n['name'])
             database.insert(reservations, proc_item)
         print("db has %d entries" % reservations.count())
         print ("remaining on this card = ", rem)

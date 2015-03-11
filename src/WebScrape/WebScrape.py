@@ -7,6 +7,7 @@ Created on Mar 6, 2015
 from selenium import webdriver
 #from selenium.webdriver.common.keys import Keys
 import time
+import logging
 
 class WebScrape(object):
     '''
@@ -24,15 +25,11 @@ class WebScrape(object):
         '''
         set up browser
         '''
-        #print ("prep_browser\n\tstart server " + self.browser)
         if self.browser == 'phantomjs':
             browser = webdriver.PhantomJS("/usr/local/bin/phantomjs")
         else:
             browser = webdriver.Firefox() # Get local session of firefox
-
-        #print ("\tset window")
         browser.set_window_size(1280, 2000)
-        #print ("\tdone")
         return browser
 
     def open_parkeren_delft(self):
@@ -105,52 +102,31 @@ class WebScrape(object):
         browser.close()
         return (remaing_hours, res)
 
-    def procItem(self, r, nr):
-        #key = ';'.join(r.split('\n'))
+    def proc_item(self, r, nr):
         s = r.split('\n')
-        #print("r = %s" % r)
-        #print(s)
-        #print("l = %d" % len(s))
         key = s[0] + ';' + s[2]
-        #print("key = %s" % key)
         item = {'key':key, 'nr': nr, 'start': s[0], 'end': s[1], 'kenteken': s[2]}
-        #print item['key']
         return item
 
-    def openRdw(self):
-        if self.debug:
-            print "openRdw"
+    def open_rdw(self):
+        logging.info("open_rdw")
         browser = self.prep_browser()
-        if self.debug:
-            print "\tgoto link"
+        logging.info("goto link")
         browser.get("https://www.rdw.nl/particulier/Paginas/default.aspx") # Load page
-        if self.debug:
-            print "\tsleep"
         time.sleep(1)
-        if self.debug:
-            print "\tget shot"
         browser.save_screenshot('screen_openPage.png')
-        if self.debug:
-            print "done"
         return browser
 
-    def enterKenteken(self, browser, kenteken):
+    def enter_kenteken(self, browser, kenteken):
         elem = browser.find_element_by_id("ctl00_PlaceHolderMain_ctl05_PlateTextBox")
-        #print("found %d" % len(elem))
-        #elem = browser.find_element_by_id("ctl00_PlaceHolderMain_ctl05_PlateTextBox")
         elem.send_keys(kenteken)
         browser.save_screenshot('screen_enterKenteken.png')
-        #time.sleep(5)
-        #elem[0].send_keys(kenteken + Keys.RETURN)
-        #time.sleep(5)
-
         elem2 = browser.find_element_by_xpath("//input[@value='Gegevens opvragen']")
         elem2.click()
         time.sleep(1)
         browser.save_screenshot('screen_enterKenteken2.png')
 
-
-    def getInfo(self, browser, kenteken):
+    def get_info(self, browser, kenteken):
         info = {}
         info['kenteken'] = kenteken
         try:
@@ -158,21 +134,20 @@ class WebScrape(object):
             info['naam'] = browser.find_element_by_id("Handelsbenaming").text
             try:
                 info['kleur'] = browser.find_element_by_id("Kleur").text
-            except:
+            except(KeyError):
                 info['kleur'] = 'onbekend'
             iname = "InrichtingCodeOmschrijving"
             info['InrichtingCodeOmschrijving'] = browser.find_element_by_id(iname).text
-        except:
-            print "problem retrieving info from site"
+        except(IOError):
+            logging.error("problem retrieving info from site")
             browser.save_screenshot('screen.png')
 
         return info
 
-    def getRdwInfo(self, kenteken):
-        if self.debug:
-            print "getRdwInfo\n\topen browser"
-        browser = self.openRdw()
-        self.enterKenteken(browser, kenteken)
-        info = self.getInfo(browser, kenteken)
+    def get_rdw_info(self, kenteken):
+        logging.info("get_rdw_info\n\topen browser")
+        browser = self.open_rdw()
+        self.enter_kenteken(browser, kenteken)
+        info = self.get_info(browser, kenteken)
         browser.close()
         return info

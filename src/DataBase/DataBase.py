@@ -4,6 +4,7 @@ Created on Mar 6, 2015
 '''
 from pymongo.mongo_client import MongoClient
 from WebScrape import WebScrape
+import logging
 
 class DataBase(object):
     '''
@@ -46,8 +47,7 @@ class DataBase(object):
         '''
         insert a entry into the given collection
         '''
-        if self.debug:
-            print "insert"
+        logging.info("insert")
         k = entry['key']
         collection.update({'key': k}, entry, upsert=True)
 
@@ -62,7 +62,7 @@ class DataBase(object):
             #print ("\t not in db")
             web_scrape = WebScrape.WebScrape()
             #print ("\tstart scrape")
-            rdw_info = web_scrape.getRdwInfo(kenteken)
+            rdw_info = web_scrape.get_rdw_info(kenteken)
             kentekens.insert(rdw_info)
             qres = kentekens.find({'kenteken': kenteken})
             assert qres.count() == 1

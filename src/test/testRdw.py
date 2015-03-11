@@ -5,7 +5,7 @@ Created on Mar 7, 2015
 '''
 try:
     from config import config
-except:
+except(IOError):
     pass
 
 import unittest
@@ -21,17 +21,17 @@ class Test(unittest.TestCase):
 
         try:
             browser = config['browser']
-        except:
+        except(KeyError):
             browser = "firefox"
 
         web_scrape = WebScrape.WebScrape(browser)
-        rdw_info = web_scrape.getRdwInfo("58JRNK")
+        rdw_info = web_scrape.get_rdw_info("58JRNK")
         expect = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 
                   'merk': u'TOYOTA', 'kleur': u'Blauw', 'kenteken': '58JRNK'}
         #print(rdw_info)
         self.assertDictEqual(expect, rdw_info, "Info 1 klopt niet")
 
-        rdw_info = web_scrape.getRdwInfo("6VXR12")
+        rdw_info = web_scrape.get_rdw_info("6VXR12")
         #print(rdw_info)
         expect = {'naam': u'TRANSIT/TOURNEO', 'merk': u'FORD', 'kleur': 'onbekend', 
                   'InrichtingCodeOmschrijving': u'gesloten opbouw', 'kenteken': "6VXR12"}
