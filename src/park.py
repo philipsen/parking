@@ -8,8 +8,8 @@ Add data to the database
 
 '''
 
-from WebScrape import WebScrape
-from database import DataBase
+from webscrape import webscrape
+from database import database
 import config
 from config import nummers
 
@@ -17,11 +17,11 @@ if __name__ == '__main__':
     
     nummers = config.nummers
      
-    database = DataBase.DataBase()
+    database = database.DataBase()
     reservations = database.get_db().reservations
     print("db has %d entries" % reservations.count())
     
-    scrape = WebScrape.WebScrape("firefox")
+    scrape = webscrape.WebScrape("firefox")
     
     for n in nummers:
         print "n = ", n
