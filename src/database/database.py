@@ -17,7 +17,8 @@ class DataBase(object):
         '''
         self.debug = False
 
-    def get_db(self):
+    @staticmethod
+    def get_db():
         '''
         return mongo collection
         '''
@@ -28,7 +29,8 @@ class DataBase(object):
         database.reservations.create_index('key', unique=True)
         return database
 
-    def get_test_db(self):
+    @staticmethod
+    def get_test_db():
         '''
         return the test collection
         '''
