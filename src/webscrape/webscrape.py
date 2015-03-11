@@ -58,24 +58,15 @@ class WebScrape(object):
         '''
         time.sleep(5)
         browser.save_screenshot('screen_afterLogin.png')
-        if self.debug:
-            print "get remaining hours"
         elem = browser.find_element_by_xpath("//span[@class='pull-right ng-binding']")
         remaing_hours = elem.text
-        if self.debug:
-            print remaing_hours
-
-        if self.debug:
-            print "click the menu"
         elem = browser.find_element_by_xpath("//div[@ng-click='vm.toggleMenu()']")
         elem.click()
         time.sleep(1)
-        print "click the history item"
         elem = browser.find_element_by_class_name("glyphicon-stats")
         elem2 = elem.find_element_by_xpath("..")
         elem2.click()
         time.sleep(1)
-        print "open list with reservations"
         elem = browser.find_element_by_xpath("//div[@ng-click='vm.toggleReservations()']")
         elem.click()
         time.sleep(2)

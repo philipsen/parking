@@ -20,6 +20,10 @@ class Test(unittest.TestCase):
         print("rem " + rem)
         self.assertTrue(len(res) > 0, "there is a history")
 
+        proc = scrape.proc_item(res[0], nummer['name'])
+        print proc
+        self.assertTrue(len(proc) > 0, "item is not empty")
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_gethist']
     unittest.main()
