@@ -141,6 +141,11 @@ class WebScrape(object):
         '''
         info = {}
         info['kenteken'] = kenteken
+        info['merk'] = 'onbekend'
+        info['naam'] = 'onbekend'
+        info['kleur'] = 'onbekend'
+        info['InrichtingCodeOmschrijving'] = 'onbekend'
+        
         try:
             info['merk'] = browser.find_element_by_id("Merk").text
             info['naam'] = browser.find_element_by_id("Handelsbenaming").text
@@ -150,7 +155,7 @@ class WebScrape(object):
                 info['kleur'] = 'onbekend'
             iname = "InrichtingCodeOmschrijving"
             info['InrichtingCodeOmschrijving'] = browser.find_element_by_id(iname).text
-        except IOError:
+        except:
             logging.error("problem retrieving info from site")
             browser.save_screenshot('screen.png')
 
