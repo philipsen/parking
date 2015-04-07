@@ -63,8 +63,8 @@ class Test(unittest.TestCase):
         self.assertEqual(kentekens.count(), 0, "db needs to be empty")
         i1 = db2.get_kenteken_info(kentekens, '58JRNK')
         expect1['_id'] = i1['_id']
-        #print expect1
-        #print i1
+        print expect1
+        print i1
      
         self.assertEqual(kentekens.count(), 1, "db needs have 1")
         self.assertDictEqual(expect1, i1, "Info 1 klopt niet here")    

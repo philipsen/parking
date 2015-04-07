@@ -143,16 +143,17 @@ class WebScrape(object):
         info['kenteken'] = kenteken
         info['merk'] = 'onbekend'
         info['naam'] = 'onbekend'
-        info['kleur'] = 'onbekend'
+        #info['kleur'] = 'onbekend'
         info['InrichtingCodeOmschrijving'] = 'onbekend'
         
         try:
-            info['merk'] = browser.find_element_by_id("Merk").text
-            info['naam'] = browser.find_element_by_id("Handelsbenaming").text
             if 'kleur' in info:
                 info['kleur'] = browser.find_element_by_id("Kleur").text
             else:
                 info['kleur'] = 'onbekend'
+         
+            info['merk'] = browser.find_element_by_id("Merk").text
+            info['naam'] = browser.find_element_by_id("Handelsbenaming").text
             iname = "InrichtingCodeOmschrijving"
             info['InrichtingCodeOmschrijving'] = browser.find_element_by_id(iname).text
         except:
