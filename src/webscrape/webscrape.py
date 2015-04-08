@@ -107,6 +107,10 @@ class WebScrape(object):
         key = split[0] + ';' + split[2]
         item = {'key':key, 'nr': krtnum, 'start': split[0],
                 'end': split[1], 'kenteken': split[2]}
+        
+        if "*" in item['kenteken']:
+            return None
+        
         return item
 
     def open_rdw(self):
@@ -139,34 +143,69 @@ class WebScrape(object):
         '''
         retrieve info from page
         '''
+        
+        logging.warn('get_info {}'.format(kenteken))
         info = {}
         info['kenteken'] = kenteken
         info['merk'] = 'onbekend'
         info['naam'] = 'onbekend'
-        #info['kleur'] = 'onbekend'
+        info['kleur'] = 'onbekend'
         info['InrichtingCodeOmschrijving'] = 'onbekend'
         
-        try:
-            if 'kleur' in info:
-                info['kleur'] = browser.find_element_by_id("Kleur").text
-            else:
-                info['kleur'] = 'onbekend'
-         
-            info['merk'] = browser.find_element_by_id("Merk").text
-            info['naam'] = browser.find_element_by_id("Handelsbenaming").text
-            iname = "InrichtingCodeOmschrijving"
-            info['InrichtingCodeOmschrijving'] = browser.find_element_by_id(iname).text
+        ## if the license is "****", dont bother
+        if '*' in kenteken:
+            return info
+              
+        try:     
+            elem = browser.find_element_by_id("Kleur")
+            info['kleur'] = elem.text
         except:
-            logging.error("problem retrieving info from site")
-            browser.save_screenshot('screen.png')
+            info['kleur'] = 'onbekend'
+            
+        print 'info 2 = {}'.format(info)
+
+        try:        
+            elem = browser.find_element_by_id("Merk")
+            info['merk'] = elem.text
+        except:
+            pass
+        
+        try:
+            elem = browser.find_element_by_id("Handelsbenaming")
+            info['naam'] = elem.text
+        except:
+            pass
+        
+        try:
+            elem = browser.find_element_by_id("InrichtingCodeOmschrijving")
+            info['InrichtingCodeOmschrijving'] = elem.text
+        except:
+            elem = browser.find_element_by_id("CorrosserieOmschrijving")
+            info['InrichtingCodeOmschrijving'] = elem.text
+            
+        
+        print 'info2 = {}'.format(info)
+            
+        browser.save_screenshot('screen.png')
 
         return info
 
     def get_rdw_info(self, kenteken):
         ''' return license info retieve from site '''
-        logging.info("get_rdw_info\n\topen browser")
-        browser = self.open_rdw()
-        self.enter_kenteken(browser, kenteken)
-        info = self.get_info(browser, kenteken)
-        browser.close()
-        return info
+        logging.warn("get_rdw_info\n\topen browser for: {}".format(kenteken))
+                     
+        ## if the license is "****", dont bother
+        if '*' in kenteken:
+            info = {}
+            info['kenteken'] = kenteken
+            info['merk'] = 'onbekend'
+            info['naam'] = 'onbekend'
+            info['kleur'] = 'onbekend'
+            info['InrichtingCodeOmschrijving'] = 'onbekend'
+            return info
+        else:
+            browser = self.open_rdw()
+            self.enter_kenteken(browser, kenteken)
+            info = self.get_info(browser, kenteken)
+            browser.close()
+            return info

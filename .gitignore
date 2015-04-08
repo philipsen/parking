@@ -20,3 +20,9 @@ src/config.py
 src/screen_enterKenteken.png
 src/screen_enterKenteken2.png
 src/screen_openPage.png
+ghostdriver.log
+screen_afterLogin.png
+screen_enterKenteken.png
+screen_enterKenteken2.png
+screen_openPage.png
+src/screen.png

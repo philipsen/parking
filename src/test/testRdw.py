@@ -15,6 +15,17 @@ from database import database
 #from nose.tools import nottest
 
 class Test(unittest.TestCase):
+    
+    def testIllegalKenteken(self):
+        try:
+            browser = config['browser']
+        except(KeyError):
+            browser = "firefox"
+
+        web_scrape = webscrape.WebScrape(browser)    
+        rdw_info = web_scrape.get_rdw_info("****")
+        self.assertEqual(rdw_info["kleur"], "onbekend", "kenteken *** heeft geen info")
+
 
     def testGetKenten(self):
 
@@ -25,13 +36,18 @@ class Test(unittest.TestCase):
 
         web_scrape = webscrape.WebScrape(browser)
         rdw_info = web_scrape.get_rdw_info("58JRNK")
-        expect = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 'merk': u'TOYOTA', 'kleur': 'onbekend', 'kenteken': '58JRNK'} 
-        #print(rdw_info)
-        #print expect
+        
+        expect = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 'merk': u'TOYOTA', 
+                  'kleur': 'Blauw', 'kenteken': '58JRNK'} 
+ 
+        print rdw_info
+        print expect
+         
         self.assertDictEqual(expect, rdw_info, "Info 1 klopt niet")
-
+        
+        # test for with unknown color
         rdw_info = web_scrape.get_rdw_info("6VXR12")
-        #print(rdw_info)
+        print 'rdw info = ', rdw_info
         expect = {'naam': u'TRANSIT/TOURNEO', 'merk': u'FORD', 'kleur': 'onbekend', 
                   'InrichtingCodeOmschrijving': u'gesloten opbouw', 'kenteken': "6VXR12"}
         self.assertDictEqual(expect, rdw_info, "Info 2 klopt niet")
@@ -55,7 +71,7 @@ class Test(unittest.TestCase):
 
     def testAddKenteken(self):
         expect1 = {u'InrichtingCodeOmschrijving': u'stationwagen', 
-                   u'naam': u'TOYOTA COROLLA VERSO', u'kleur': u'onbekend',
+                   u'naam': u'TOYOTA COROLLA VERSO', u'kleur': u'Blauw',
                    u'merk': u'TOYOTA', u'kenteken': u'58JRNK'}
         db2 = database.DataBase()
         db = db2.get_test_db()

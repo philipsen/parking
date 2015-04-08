@@ -19,17 +19,30 @@ class Test(unittest.TestCase):
                u'07-03-2015 14:37\n07-03-2015 16:09\n04NNTN\n1 uur 32 min',
                u'07-03-2015 10:01\n07-03-2015 11:01\n14FSRS\n1 uur', 
                u'07-03-2015 09:51\n07-03-2015 09:51\n14FSRS',
-            u'06-03-2015 22:33\n06-03-2015 23:58\n14FSRS\n1 uur 25 min', u'04-03-2015 16:54\n04-03-2015 17:24\n63HFLD\n30 min', u'04-03-2015 13:31\n04-03-2015 14:31\n74HST7\n1 uur', u'04-03-2015 10:00\n6VXR12\n30 min', u'']
+               u'07-03-2015 14:37\n07-03-2015 16:09\n***\n1 uur 32 min',
+               u'06-03-2015 22:33\n06-03-2015 23:58\n14FSRS\n1 uur 25 min', 
+               u'04-03-2015 16:54\n04-03-2015 17:24\n63HFLD\n30 min', 
+               u'04-03-2015 13:31\n04-03-2015 14:31\n74HST7\n1 uur', 
+               u'04-03-2015 10:00\n6VXR12\n30 min', u'']
         for r in res2[0:4]:
-            #print r
+            print r
             proc_item = scrape.proc_item(r, 'naam')
-            #print proc_item
+            print proc_item
             self.assertTrue(proc_item is not None, "item needs top be valid")
             #print proc_item
             self.assertGreater(len(proc_item), 0, "item can not be empty")
         r = res2[4]
         proc_item = scrape.proc_item(r, 'naam')
+        print 'r = ', r
         self.assertFalse(proc_item is not None, "item is invalid")
+
+        # verify that illega license numbers are ignored
+        r = res2[5]
+        proc_item = scrape.proc_item(r, 'naam')
+        print 'r = ', r
+        self.assertFalse(proc_item is not None, "item is invalid")
+        
+        
 
     #@nottest
     def test_gethist(self):
