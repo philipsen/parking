@@ -8,6 +8,7 @@ from selenium import webdriver
 #from selenium.webdriver.common.keys import Keys
 import time
 import logging
+from selenium.common.exceptions import NoSuchElementException
 
 class WebScrape(object):
     '''
@@ -155,30 +156,30 @@ class WebScrape(object):
         if '*' in kenteken:
             return info
 
-        try:     
+        try:
             elem = browser.find_element_by_id("Kleur")
             info['kleur'] = elem.text
-        except:
+        except NoSuchElementException:
             info['kleur'] = 'onbekend'
 
         print 'info 2 = {}'.format(info)
 
-        try:        
+        try:
             elem = browser.find_element_by_id("Merk")
             info['merk'] = elem.text
-        except:
+        except NoSuchElementException:
             pass
 
         try:
             elem = browser.find_element_by_id("Handelsbenaming")
             info['naam'] = elem.text
-        except:
+        except NoSuchElementException:
             pass
 
         try:
             elem = browser.find_element_by_id("InrichtingCodeOmschrijving")
             info['InrichtingCodeOmschrijving'] = elem.text
-        except:
+        except NoSuchElementException:
             elem = browser.find_element_by_id("CorrosserieOmschrijving")
             info['InrichtingCodeOmschrijving'] = elem.text
 
