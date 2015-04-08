@@ -182,7 +182,7 @@ class WebScrape(object):
         except NoSuchElementException:
             elem = browser.find_element_by_id("CorrosserieOmschrijving")
             info['InrichtingCodeOmschrijving'] = elem.text
-
+            
         print 'info2 = {}'.format(info)
         browser.save_screenshot('screen.png')
         return info
