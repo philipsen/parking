@@ -143,7 +143,7 @@ class WebScrape(object):
         retrieve info from page
         '''
 
-        logging.warn('get_info {}'.format(kenteken))
+        logging.warn('get_info %s', kenteken)
         info = {}
         info['kenteken'] = kenteken
         info['merk'] = 'onbekend'
@@ -188,8 +188,8 @@ class WebScrape(object):
 
     def get_rdw_info(self, kenteken):
         ''' return license info retieve from site '''
-        logging.warn("get_rdw_info\n\topen browser for: {}".format(kenteken))
-                     
+        logging.warn("get_rdw_info\n\topen browser for: %s", kenteken)
+
         ## if the license is "****", dont bother
         if '*' in kenteken:
             info = {}
