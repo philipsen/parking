@@ -36,15 +36,15 @@ class Test(unittest.TestCase):
 
         web_scrape = webscrape.WebScrape(browser)
         rdw_info = web_scrape.get_rdw_info("58JRNK")
-        
+
         expect = {'naam': u'TOYOTA COROLLA VERSO', 'InrichtingCodeOmschrijving': u'stationwagen', 'merk': u'TOYOTA', 
                   'kleur': 'Blauw', 'kenteken': '58JRNK'} 
- 
+
         print rdw_info
         print expect
-         
+
         self.assertDictEqual(expect, rdw_info, "Info 1 klopt niet")
-        
+
         # test for with unknown color
         rdw_info = web_scrape.get_rdw_info("6VXR12")
         print 'rdw info = ', rdw_info

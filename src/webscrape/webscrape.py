@@ -107,10 +107,9 @@ class WebScrape(object):
         key = split[0] + ';' + split[2]
         item = {'key':key, 'nr': krtnum, 'start': split[0],
                 'end': split[1], 'kenteken': split[2]}
-        
+
         if "*" in item['kenteken']:
             return None
-        
         return item
 
     def open_rdw(self):
@@ -143,7 +142,7 @@ class WebScrape(object):
         '''
         retrieve info from page
         '''
-        
+
         logging.warn('get_info {}'.format(kenteken))
         info = {}
         info['kenteken'] = kenteken
@@ -151,17 +150,17 @@ class WebScrape(object):
         info['naam'] = 'onbekend'
         info['kleur'] = 'onbekend'
         info['InrichtingCodeOmschrijving'] = 'onbekend'
-        
+
         ## if the license is "****", dont bother
         if '*' in kenteken:
             return info
-              
+
         try:     
             elem = browser.find_element_by_id("Kleur")
             info['kleur'] = elem.text
         except:
             info['kleur'] = 'onbekend'
-            
+
         print 'info 2 = {}'.format(info)
 
         try:        
@@ -169,25 +168,22 @@ class WebScrape(object):
             info['merk'] = elem.text
         except:
             pass
-        
+
         try:
             elem = browser.find_element_by_id("Handelsbenaming")
             info['naam'] = elem.text
         except:
             pass
-        
+
         try:
             elem = browser.find_element_by_id("InrichtingCodeOmschrijving")
             info['InrichtingCodeOmschrijving'] = elem.text
         except:
             elem = browser.find_element_by_id("CorrosserieOmschrijving")
             info['InrichtingCodeOmschrijving'] = elem.text
-            
-        
-        print 'info2 = {}'.format(info)
-            
-        browser.save_screenshot('screen.png')
 
+        print 'info2 = {}'.format(info)
+        browser.save_screenshot('screen.png')
         return info
 
     def get_rdw_info(self, kenteken):
