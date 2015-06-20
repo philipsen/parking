@@ -109,8 +109,8 @@ class WebScrape(object):
         item = {'key':key, 'nr': krtnum, 'start': split[0],
                 'end': split[1], 'kenteken': split[2]}
 
-        if "*" in item['kenteken']:
-            return None
+        #if "*" in item['kenteken']:
+        #    return None
         return item
 
     def open_rdw(self):
@@ -180,8 +180,11 @@ class WebScrape(object):
             elem = browser.find_element_by_id("InrichtingCodeOmschrijving")
             info['InrichtingCodeOmschrijving'] = elem.text
         except NoSuchElementException:
-            elem = browser.find_element_by_id("CorrosserieOmschrijving")
-            info['InrichtingCodeOmschrijving'] = elem.text
+            try:
+                elem = browser.find_element_by_id("CarrosserieOmschrijving")
+                info['InrichtingCodeOmschrijving'] = elem.text
+            except NoSuchElementException:
+                info['InrichtingCodeOmschrijving'] = "unknown"
 
         print 'info2 = {}'.format(info)
         browser.save_screenshot('screen.png')
